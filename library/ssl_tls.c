@@ -9025,7 +9025,7 @@ void mbedtls_ssl_config_init( mbedtls_ssl_config *conf )
 }
 
 #if defined(MBEDTLS_KEY_EXCHANGE__WITH_CERT__ENABLED)
-static int ssl_preset_default_hashes[] = {
+static const int ssl_preset_default_hashes[] = {
 #if defined(MBEDTLS_SHA512_C)
     MBEDTLS_MD_SHA512,
     MBEDTLS_MD_SHA384,
@@ -9041,14 +9041,14 @@ static int ssl_preset_default_hashes[] = {
 };
 #endif
 
-static int ssl_preset_suiteb_ciphersuites[] = {
+static const int ssl_preset_suiteb_ciphersuites[] = {
     MBEDTLS_TLS_ECDHE_ECDSA_WITH_AES_128_GCM_SHA256,
     MBEDTLS_TLS_ECDHE_ECDSA_WITH_AES_256_GCM_SHA384,
     0
 };
 
 #if defined(MBEDTLS_KEY_EXCHANGE__WITH_CERT__ENABLED)
-static int ssl_preset_suiteb_hashes[] = {
+static const int ssl_preset_suiteb_hashes[] = {
     MBEDTLS_MD_SHA256,
     MBEDTLS_MD_SHA384,
     MBEDTLS_MD_NONE
@@ -9056,7 +9056,7 @@ static int ssl_preset_suiteb_hashes[] = {
 #endif
 
 #if defined(MBEDTLS_ECP_C)
-static mbedtls_ecp_group_id ssl_preset_suiteb_curves[] = {
+static const mbedtls_ecp_group_id ssl_preset_suiteb_curves[] = {
 #if defined(MBEDTLS_ECP_DP_SECP256R1_ENABLED)
     MBEDTLS_ECP_DP_SECP256R1,
 #endif

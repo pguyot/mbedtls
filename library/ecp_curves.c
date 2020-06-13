@@ -572,10 +572,10 @@ static inline void ecp_mpi_load( mbedtls_mpi *X, const mbedtls_mpi_uint *p, size
  */
 static inline void ecp_mpi_set1( mbedtls_mpi *X )
 {
-    static mbedtls_mpi_uint one[] = { 1 };
+    static const mbedtls_mpi_uint one[] = { 1 };
     X->s = 1;
     X->n = 1;
-    X->p = one;
+    X->p = (mbedtls_mpi_uint *) one;
 }
 
 /*
@@ -1350,7 +1350,7 @@ cleanup:
  */
 #define P_KOBLITZ_MAX   ( 256 / 8 / sizeof( mbedtls_mpi_uint ) )  // Max limbs in P
 #define P_KOBLITZ_R     ( 8 / sizeof( mbedtls_mpi_uint ) )        // Limbs in R
-static inline int ecp_mod_koblitz( mbedtls_mpi *N, mbedtls_mpi_uint *Rp, size_t p_limbs,
+static inline int ecp_mod_koblitz( mbedtls_mpi *N, const mbedtls_mpi_uint *Rp, size_t p_limbs,
                                    size_t adjust, size_t shift, mbedtls_mpi_uint mask )
 {
     int ret;
@@ -1363,7 +1363,7 @@ static inline int ecp_mod_koblitz( mbedtls_mpi *N, mbedtls_mpi_uint *Rp, size_t 
 
     /* Init R */
     R.s = 1;
-    R.p = Rp;
+    R.p = (mbedtls_mpi_uint *) Rp;
     R.n = P_KOBLITZ_R;
 
     /* Common setup for M */
@@ -1426,7 +1426,7 @@ cleanup:
  */
 static int ecp_mod_p192k1( mbedtls_mpi *N )
 {
-    static mbedtls_mpi_uint Rp[] = {
+    static const mbedtls_mpi_uint Rp[] = {
         BYTES_TO_T_UINT_8( 0xC9, 0x11, 0x00, 0x00, 0x01, 0x00, 0x00, 0x00 ) };
 
     return( ecp_mod_koblitz( N, Rp, 192 / 8 / sizeof( mbedtls_mpi_uint ), 0, 0, 0 ) );
@@ -1440,7 +1440,7 @@ static int ecp_mod_p192k1( mbedtls_mpi *N )
  */
 static int ecp_mod_p224k1( mbedtls_mpi *N )
 {
-    static mbedtls_mpi_uint Rp[] = {
+    static const mbedtls_mpi_uint Rp[] = {
         BYTES_TO_T_UINT_8( 0x93, 0x1A, 0x00, 0x00, 0x01, 0x00, 0x00, 0x00 ) };
 
 #if defined(MBEDTLS_HAVE_INT64)
@@ -1459,7 +1459,7 @@ static int ecp_mod_p224k1( mbedtls_mpi *N )
  */
 static int ecp_mod_p256k1( mbedtls_mpi *N )
 {
-    static mbedtls_mpi_uint Rp[] = {
+    static const mbedtls_mpi_uint Rp[] = {
         BYTES_TO_T_UINT_8( 0xD1, 0x03, 0x00, 0x00, 0x01, 0x00, 0x00, 0x00 ) };
     return( ecp_mod_koblitz( N, Rp, 256 / 8 / sizeof( mbedtls_mpi_uint ), 0, 0, 0 ) );
 }
