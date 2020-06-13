@@ -426,7 +426,48 @@ static const mbedtls_ecp_curve_info ecp_supported_curves[] =
 #define ECP_NB_CURVES   sizeof( ecp_supported_curves ) /    \
                         sizeof( ecp_supported_curves[0] )
 
+#if defined(MBEDTLS_NO_GLOBAL)
+static const mbedtls_ecp_group_id ecp_supported_grp_id[ECP_NB_CURVES] =
+{
+#if defined(MBEDTLS_ECP_DP_SECP521R1_ENABLED)
+    MBEDTLS_ECP_DP_SECP521R1,
+#endif
+#if defined(MBEDTLS_ECP_DP_BP512R1_ENABLED)
+    MBEDTLS_ECP_DP_BP512R1,
+#endif
+#if defined(MBEDTLS_ECP_DP_SECP384R1_ENABLED)
+    MBEDTLS_ECP_DP_SECP384R1,
+#endif
+#if defined(MBEDTLS_ECP_DP_BP384R1_ENABLED)
+    MBEDTLS_ECP_DP_BP384R1,
+#endif
+#if defined(MBEDTLS_ECP_DP_SECP256R1_ENABLED)
+    MBEDTLS_ECP_DP_SECP256R1,
+#endif
+#if defined(MBEDTLS_ECP_DP_SECP256K1_ENABLED)
+    MBEDTLS_ECP_DP_SECP256K1,
+#endif
+#if defined(MBEDTLS_ECP_DP_BP256R1_ENABLED)
+    MBEDTLS_ECP_DP_BP256R1,
+#endif
+#if defined(MBEDTLS_ECP_DP_SECP224R1_ENABLED)
+    MBEDTLS_ECP_DP_SECP224R1,
+#endif
+#if defined(MBEDTLS_ECP_DP_SECP224K1_ENABLED)
+    MBEDTLS_ECP_DP_SECP224K1,
+#endif
+#if defined(MBEDTLS_ECP_DP_SECP192R1_ENABLED)
+    MBEDTLS_ECP_DP_SECP192R1,
+#endif
+#if defined(MBEDTLS_ECP_DP_SECP192K1_ENABLED)
+    MBEDTLS_ECP_DP_SECP192K1,
+#endif
+    MBEDTLS_ECP_DP_NONE,
+};
+
+#else
 static mbedtls_ecp_group_id ecp_supported_grp_id[ECP_NB_CURVES];
+#endif
 
 /*
  * List of supported curves and associated info
@@ -441,6 +482,7 @@ const mbedtls_ecp_curve_info *mbedtls_ecp_curve_list( void )
  */
 const mbedtls_ecp_group_id *mbedtls_ecp_grp_id_list( void )
 {
+#if !defined(MBEDTLS_NO_GLOBAL)
     static int init_done = 0;
 
     if( ! init_done )
@@ -458,6 +500,7 @@ const mbedtls_ecp_group_id *mbedtls_ecp_grp_id_list( void )
 
         init_done = 1;
     }
+#endif
 
     return( ecp_supported_grp_id );
 }

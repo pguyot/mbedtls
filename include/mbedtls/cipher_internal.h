@@ -116,7 +116,11 @@ typedef struct
 
 extern const mbedtls_cipher_definition_t mbedtls_cipher_definitions[];
 
+#if defined(MBEDTLS_NO_GLOBAL)
+extern const int mbedtls_cipher_supported[];
+#else
 extern int mbedtls_cipher_supported[];
+#endif
 
 #ifdef __cplusplus
 }

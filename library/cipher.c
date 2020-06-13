@@ -90,10 +90,13 @@ static int mbedtls_constant_time_memcmp( const void *v1, const void *v2, size_t 
 }
 #endif /* MBEDTLS_GCM_C || MBEDTLS_CHACHAPOLY_C */
 
+#if !defined(MBEDTLS_NO_GLOBAL)
 static int supported_init = 0;
+#endif
 
 const int *mbedtls_cipher_list( void )
 {
+#if !defined(MBEDTLS_NO_GLOBAL)
     const mbedtls_cipher_definition_t *def;
     int *type;
 
@@ -109,7 +112,7 @@ const int *mbedtls_cipher_list( void )
 
         supported_init = 1;
     }
-
+#endif
     return( mbedtls_cipher_supported );
 }
 
